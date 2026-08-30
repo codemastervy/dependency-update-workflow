@@ -1,0 +1,5 @@
+__pycache__/
+*.pyc
+*-outdated.json
+summary.md
+.DS_Store
