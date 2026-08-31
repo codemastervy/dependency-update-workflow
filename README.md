@@ -54,9 +54,15 @@ simply never merges. That's the point.
 ### 1. Copy the two pieces in
 
 ```bash
-cp -r .github/workflows/bimonthly-dependency-update.yml  <target-repo>/.github/workflows/
-cp -r scripts/                                            <target-repo>/scripts/
+cp examples/bimonthly-dependency-update.yml  <target-repo>/.github/workflows/bimonthly-dependency-update.yml
+cp -r scripts/                                <target-repo>/scripts/
 ```
+
+The workflow file lives under `examples/`, not `.github/workflows/`, on
+purpose — this repo has no dependency files of its own to check, so a live
+copy sitting in `.github/workflows/` here would eventually fire on its
+schedule and fail, emailing you about it. It only starts actually running
+once you copy it into a repo that has dependencies to check.
 
 ### 2. Make sure the paths match your repo
 
@@ -182,7 +188,7 @@ gh api user/emails
 ## Files
 
 ```
-.github/workflows/bimonthly-dependency-update.yml   the workflow itself
+examples/bimonthly-dependency-update.yml            the workflow itself
 scripts/check_docker_base.py                        finds newer Docker Hub tags on the same track
 scripts/summarize_updates.py                         turns the three *-outdated.json files into one markdown summary
 scripts/apply_pip_updates.py                          bumps backend/requirements.txt to the versions found
