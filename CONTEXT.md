@@ -72,6 +72,22 @@ at the cost of the setup needing that one manual, easy-to-forget step
 original incident, so it's called out with extra emphasis rather than
 buried in a numbered list.
 
+## A bug found after shipping, by actually using it as a reference repo
+
+This repo originally shipped with the workflow file live at
+`.github/workflows/bimonthly-dependency-update.yml` — the same path where
+it needs to live in a *consuming* repo to actually run. The oversight: that
+means it was also live **here**, in the repo that has no
+`backend/requirements.txt`, no `frontend/package.json`, no `Dockerfile` —
+nothing for its own check steps to find. Left as shipped, it would
+eventually have fired on its own schedule against this repo and failed,
+emailing about a phantom problem in a repo that was never meant to run it.
+Fixed by moving the workflow file to `examples/`, inert until someone
+copies it into a repo that actually has dependencies to check — see the
+README's copy command for the current (corrected) path. Worth remembering
+if you ever add a *second* reference file here: anything under
+`.github/workflows/` in this repo runs against this repo.
+
 ## Verified, not just built
 
 Every mechanism here was actually exercised via `workflow_dispatch` and the
